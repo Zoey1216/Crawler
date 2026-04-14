@@ -1,0 +1,18 @@
+
+services:
+  redis-db:
+    image: redis:alpine
+    container_name: my-redis
+
+  crawler-app:
+    build: .                 
+    container_name: my-crawler
+    
+    restart: always  #確保意外重啟
+    
+    environment:
+      - TZ=Asia/Taipei
+    volumes:
+      - .:/app               
+    depends_on:
+      - redis-db
