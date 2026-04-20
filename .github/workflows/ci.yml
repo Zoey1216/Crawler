@@ -1,11 +1,13 @@
 name: Docker Image CI
 
+# 設定觸發條件：當程式碼 push 到 main 分支時啟動
 on:
   push:
     branches: [ "main" ]
 
 jobs:
   build-and-push:
+    # 指定執行自動化任務的虛擬機環境
     runs-on: ubuntu-latest
 
     steps:
@@ -20,10 +22,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 將 build-push-action 更新至 v5
+      # 將 build-push-action 更新至 v5/建立 Docker Image 並推送到 Docker Hub
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
+          # 標籤名稱設定為：您的帳號/crawler-app:latest
           tags: ${{ secrets.DOCKER_USERNAME }}/crawler-app:latest
